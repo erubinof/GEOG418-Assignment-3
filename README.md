@@ -24,13 +24,11 @@ library("st")
 
 ```
 
-
-
 To start, you will want to read the shapefile for the census boundaries into ‘R’ as a st dataframe and the census data into a dataframe. Before you do this you may want to describe what a working directory is and how to set it. Also, make sure you can explain what the two files below represent.
 
 ```{r Read in data, echo=TRUE, eval=TRUE, warning=FALSE}
 #Create working directory
-dir <- "C:/Users/Ezra Rubinoff/Desktop/UVIC/Term 12-Fall 2024/GEOG 418/Assignment 3"
+dir <- "C:/Users/Name/Desktop/GEOG418/Assignment3"
 setwd(dir)
 
 #From the working dir read in the csv
@@ -41,7 +39,7 @@ shp <- st_read("Assignment3_Data/lda_000a16a_e.shp")
 
 ```
 
-Next, we want to clean up our data and make it easier to use. First we will create a vector of the column names so we understand what columns refer to what data. Then, we will remove any unwanted rows and merge the result with our spatial polygon data frame, and finally, we will subset to only the city of interest, for this analysis 'Kamloops'. The last step is to turn any absolute count data into a rate for mapping and analysis.
+Next, we want to clean up our data and make it easier to use. First we will create a vector of the column names so we understand what columns refer to what data. Then, we will remove any unwanted rows and merge the result with our spatial polygon data frame, and finally, we will subset to only the city of interest, for this analysis 'Lethbridge'. The last step is to turn any absolute count data into a rate for mapping and analysis.
 
 ```{r Clean data, echo=TRUE, eval=TRUE, warning=FALSE}
 #New column names
