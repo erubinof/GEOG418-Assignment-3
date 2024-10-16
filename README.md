@@ -1,17 +1,4 @@
-# GEOG418-Assignment-3
----
-title: "Spatial Autocorrelation Tutorial"
-author: "Geog 418"
-date: "`r format(Sys.time(), '%B %d, %Y')`"
-output: pdf_document
-#output: 
-#  bookdown::html_document2:
-#    number_sections: false
-#   fig_caption: true
-#    global_numbering: true 
----
-
-
+# GEOG 418 Assignment 3
 ## Introduction
 
 Look to the Assignment 3 rubric to ensure you have addressed all necessary elements for this section. Be sure to write this section as the beginning of a tutorial for others who will use it to perform tests of spatial autocorrelation in R for the first time.
