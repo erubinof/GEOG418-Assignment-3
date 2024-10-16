@@ -1,4 +1,4 @@
-# GEOG 418 Assignment 3
+# GEOG 418 Assignment 3: Spatial Autocorrelation Tutorial
 ## Introduction
 Describe the concept of libraries.
 
