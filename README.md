@@ -137,6 +137,8 @@ tmap_arrange(map_Income, map_French, ncol = 2, nrow = 1)
   <img src="https://github.com/user-attachments/assets/aea8f45a-67c2-404e-83c4-cf9ff763fcf4" alt="Map_Income" width="500" />
   <img src="https://github.com/user-attachments/assets/dce2aee0-530d-4801-b941-630275572d3c" alt="Map_French" width="500" />
 </div>
+<p style="text-align: center;"><em>Figure 1: Lethbridge census dissemination areas showing median total income (left) and percentage of respondants
+with knowledge of french (right).</em></p>
 
 ## Neighbourhood matrix
 
@@ -190,6 +192,12 @@ IncomeBoth <- tm_shape(Income_noNA) + tm_borders(col='lightgrey') +
 tmap_arrange(IncomeQueen, IncomeRook, IncomeBoth, ncol = 3, nrow = 1)
 
 ```
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/8a7dbc48-e36d-47d2-9e72-84dba52c669f" alt="Map_IncomQueen" width="325" />
+  <img src="https://github.com/user-attachments/assets/60e0844d-c0a6-4779-869e-b34a05c59fac" alt="Map_IncomeRook" width="325" />
+  <img src="https://github.com/user-attachments/assets/98fa6b63-eaa2-4eda-87b9-9953ea97bcad" alt="Map_IncomeBoth" width="325" />  
+</div>
+<p style="text-align: center;"><em>Figure 2: Lethbridge census dissemination areas showing median total income neighbours queens weight (left), rooks weight (middle), and the combination of the two (right).</em></p>
 
 Describe the code for the weighted matrix file.
 
@@ -345,6 +353,12 @@ map_LISA_French <- tm_shape(French_noNA) +
 #Plot maps in a 2 pane figure
 tmap_arrange(map_LISA_Income, map_LISA_French, ncol = 2, nrow = 1)
 ```
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/16f6083c-aee3-4b12-8629-7a6388301ea0" alt="map_LISA_French" width="500" />
+  <img src="https://github.com/user-attachments/assets/c277e0d7-e3a6-4829-aac1-4a2e4ec3e8a4" alt="map_LISA_Income" width="500" />
+</div>
+<p style="text-align: center;"><em>Figure 3: Lethbridge census dissemination areas showing LISA z-scores for median total income (left) and
+percentage of respondants with knowledge of french (right).</em></p>
 
 Explain the results.
 
@@ -364,6 +378,15 @@ moran.plot(French_noNA$PercFrench, French.lw, zero.policy=TRUE, spChk=NULL, labe
            ylab="Spatially Lagged knowledge of French (%)", quiet=NULL)
 ```
 
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/86ca8e5d-0584-4ed7-ae1c-61585a092f68" alt="Moran_Income_Plot" width="800" />
+</div>
+<p style="text-align: center;"><em>Figure 4: Moran’s I scatter plot for median total income.</em></p>
+
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/b8c8fc54-7846-4179-a17b-4222382cb032" alt="Moran_French_Plot" width="800" />
+</div>
+<p style="text-align: center;"><em>Figure 5: Moran's I scatter plot for percentage of respondants with knowledge of french.</em></p>
 
 In these plots, the points with diamonds are considered statistically significant, and the regression line shows the overall trend. For both plots we can see that the trend shows?
 
