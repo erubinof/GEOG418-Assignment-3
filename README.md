@@ -23,11 +23,10 @@ library("e1071")
 library("st")
 
 ```
-To start, you will want to read the shapefile for the census boundaries into ‘R’ as a st dataframe and the census data into a dataframe. Before you do this you may want to describe what a working directory is and how to set it. Also, make sure you can explain what the two files below represent.
 
 Starting off, you must set your working directory to tell the code where to look for the data and where to save your figures. This working directory only needs to be set once for the project, and everything from now on will be pulled from or saved into that folder. The next step is to import the required data into R. Below, the code demostrates how to bring the census boundaries shapefile in as a st dataframe, and the census data in as a dataframe. 
 
-The census boundaries shapefile is a spatial dataset that contains all census boundaries across Canada. This will be used to help us map out the spatial autocorrelation that we are testing. The census dataset contains all of the non-spatial information from the Canadian census and will be used to collect the data we need to run our spatial autocorrelation tests.
+The census boundaries shapefile is a spatial dataset that contains all census boundaries across Canada from 2016. This will be used to help us map out the spatial autocorrelation that we are analyzing. The census dataset contains all of the non-spatial information from the Canadian census in 2016 and will be used to collect the data we need to run our spatial autocorrelation analysis.
 
 ```{r Read in data, echo=TRUE, eval=TRUE, warning=FALSE}
 #Create working directory
@@ -42,7 +41,9 @@ shp <- st_read("Assignment3_Data/lda_000a16a_e.shp")
 
 ```
 
-Next, we want to clean up our data and make it easier to use. First we will create a vector of the column names so we understand what columns refer to what data. Then, we will remove any unwanted rows and merge the result with our spatial polygon data frame, and finally, we will subset to only the city of interest, for this analysis 'Lethbridge'. The last step is to turn any absolute count data into a rate for mapping and analysis.
+Now that the data has been imported into R, we must clean it up to make it useable. This process of cleaning the data involves creating a vector of the column names, removing unwanted rows, joining the census data with the census area spatial data, and creating a subset for the city of interest. Doing these steps will make the data readable, spatial, and contain only what we will use for the analysis. For this analysis, we will use the city of Lethbridge, Alberta.
+
+After this, we convert all the absolute count data into a rate so it is standardized and can be used for analysis. Once this is all complete, the data will be ready for our analysis.
 
 ```{r Clean data, echo=TRUE, eval=TRUE, warning=FALSE}
 #New column names
