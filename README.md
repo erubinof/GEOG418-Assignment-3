@@ -26,6 +26,9 @@ library("st")
 
 To start, you will want to read the shapefile for the census boundaries into ‘R’ as a st dataframe and the census data into a dataframe. Before you do this you may want to describe what a working directory is and how to set it. Also, make sure you can explain what the two files below represent.
 
+Starting off, you must set your working directory to tell the code where to look for the data and where to save your figures. This working directory only needs to be set once for the project, and everything from now on will be pulled from or saved into that folder. The next step is to import the required data into R. Below, the code demostrates how to bring the census boundaries shapefile in as a st dataframe, and the census data in as a dataframe. 
+
+The census boundaries shapefile is a spatial dataset that contains all census boundaries across Canada. This will be used to help us map out the spatial autocorrelation that we are testing. 
 ```{r Read in data, echo=TRUE, eval=TRUE, warning=FALSE}
 #Create working directory
 dir <- "C:/Users/Name/Desktop/GEOG418/Assignment3"
