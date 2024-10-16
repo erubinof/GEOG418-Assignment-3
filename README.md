@@ -1,9 +1,5 @@
 # GEOG 418 Assignment 3
 ## Introduction
-
-Look to the Assignment 3 rubric to ensure you have addressed all necessary elements for this section. Be sure to write this section as the beginning of a tutorial for others who will use it to perform tests of spatial autocorrelation in R for the first time.
-
-
 Describe the concept of libraries.
 
 ```{r Libraries, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
@@ -69,8 +65,8 @@ census_DAs <- merge(shp, csv_clean,
                     by.y = "GEO UID", 
                     all.x = TRUE)
 
-#Subset for Kamloops
-Municp <- subset(census_DAs, census_DAs$CMANAME == "Toronto")
+#Subset for Lethbridge, Alberta
+Municp <- subset(census_DAs, census_DAs$CMANAME == "Lethbridge")
 
 #Convert to rate
 Municp$PercFrench <- (Municp$`French Knowledge`/Municp$`Language Sample Size`)*100
@@ -137,6 +133,10 @@ map_French <- tm_shape(French_noNA) +
 #Print maps side by side
 tmap_arrange(map_Income, map_French, ncol = 2, nrow = 1)
 ```
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/aea8f45a-67c2-404e-83c4-cf9ff763fcf4" alt="Map_Income" width="500" />
+  <img src="https://github.com/user-attachments/assets/dce2aee0-530d-4801-b941-630275572d3c" alt="Map_French" width="500" />
+</div>
 
 ## Neighbourhood matrix
 
@@ -281,7 +281,7 @@ Explain local spatial autocorrelation
 The calculation for Local Moran’s I has many of the same features as our global calculation, although arranged in a different way.
 
 $$
-I_i = \frac{x_i - \bar{x}}{S_i^2}\sum{_{j=1}^n}W_{i,j}(x_j - \bar{x})\space \space where \space \space S_i^2 = \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1} 
+I_i = \frac{x_i - \bar{x}}{S_i^2} \sum_{j=1}^n W_{i,j}(x_j - \bar{x}) \quad \text{where} \quad S_i^2 = \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}
 $$
 
 Again, instead of typing out these calculations, we can use the localmoran() function to deal with all of the messy calculations for us, as long as we input our variable and weighting scheme.
