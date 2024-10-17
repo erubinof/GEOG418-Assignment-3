@@ -41,7 +41,7 @@ shp <- st_read("Assignment3_Data/lda_000a16a_e.shp")
 
 ```
 
-Now that the data has been imported into R, we must clean it up to make it useable. This process of cleaning the data involves creating a vector of the column names, removing unwanted rows, joining the census data with the census area spatial data, and creating a subset for the city of interest. Doing these steps will make the data readable, spatial, and contain only what we will use for the analysis. For this analysis, we will use the city of Lethbridge, Alberta.
+Now that the data has been imported into R, we must clean it up to make it useable. This process of cleaning the data involves creating a vector of the column names, removing unwanted rows, joining the aspatial census data with the census area spatial data, and creating a subset for the city of interest. Doing these steps will make the data readable, spatial, and contain only what we will use for the analysis. For this analysis, we will use the city of Lethbridge, Alberta.
 
 After this, we convert all the absolute count data into a rate so it is standardized and can be used for analysis. Once this is all complete, the data will be ready for our analysis.
 
@@ -76,6 +76,8 @@ Municp$PercFrench <- (Municp$`French Knowledge`/Municp$`Language Sample Size`)*1
 
 Before we can start to analyze our data, we need to be sure that the data we are looking at is relevant. Often, missing data in the form of NA or 0 values can change the results of an analysis. To make sure that the polygons we are looking at actually contain values for our variables of interest. To do this we can remove any polygon that contains an NA value for either median total income or knowledge of French.
 
+Prior to conducting the data analysis, the data needs to be relevant and free of values that could introduce inaccuracies. An example of that is missing data, defined as values that are NA. These can change the results and must be removed to make sure the output is accurate. This is done below by removing the polygons that have a NA value in the median total income or knowledge of french columns. Now, we have two cleaned datasets that contain spatial and aspatial data about both income and french knowledge which do not contain any NA values.
+
 ```{r NA Remove, echo=TRUE, eval=TRUE, warning=FALSE}
 #Remove Income NA
 Income_noNA <- Municp[which(!is.na(Municp$'Median total income')),]
@@ -85,6 +87,8 @@ French_noNA <- Municp[which(!is.na(Municp$PercFrench)),]
 ```
 
 Next, we will take a closer look at the two variables we are interested in: Median total income and Percentage of respondents with French language knowledge. We will look at some descriptive stats and do a final check for NA values in the data.
+
+
 
 ```{r DescriptiveStats, echo=TRUE, eval=TRUE, warning=FALSE}
 #Calculate descriptive stats for Income
