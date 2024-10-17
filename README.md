@@ -74,8 +74,6 @@ Municp <- subset(census_DAs, census_DAs$CMANAME == "Lethbridge")
 Municp$PercFrench <- (Municp$`French Knowledge`/Municp$`Language Sample Size`)*100
 ```
 
-Before we can start to analyze our data, we need to be sure that the data we are looking at is relevant. Often, missing data in the form of NA or 0 values can change the results of an analysis. To make sure that the polygons we are looking at actually contain values for our variables of interest. To do this we can remove any polygon that contains an NA value for either median total income or knowledge of French.
-
 Prior to conducting the data analysis, the data needs to be relevant and free of values that could introduce inaccuracies. An example of that is missing data, defined as values that are NA. These can change the results and must be removed to make sure the output is accurate. This is done below by removing the polygons that have a NA value in the median total income or knowledge of french columns. Now, we have two cleaned datasets that contain spatial and aspatial data about both income and french knowledge which do not contain any NA values.
 
 ```{r NA Remove, echo=TRUE, eval=TRUE, warning=FALSE}
@@ -86,9 +84,7 @@ Income_noNA <- Municp[which(!is.na(Municp$'Median total income')),]
 French_noNA <- Municp[which(!is.na(Municp$PercFrench)),]
 ```
 
-Next, we will take a closer look at the two variables we are interested in: Median total income and Percentage of respondents with French language knowledge. We will look at some descriptive stats and do a final check for NA values in the data.
-
-
+To start the analysis, we can look at some descriptive statistics for both the median total income and percentage of respondents with french language knowledge in Lethbridge. These values will give us some base values to begin our analysis.
 
 ```{r DescriptiveStats, echo=TRUE, eval=TRUE, warning=FALSE}
 #Calculate descriptive stats for Income
@@ -108,8 +104,9 @@ data <- data.frame(Variable = c("Income", "French Language"),
                    Skewness = c(round(skewIncome,2), round(skewFrench,2)))
 
 #Produce table
-kable(data, caption = paste0("Descriptive statistics for Median Income and Percentage of French Speakers ", 2016, " census variables"))
+kable(data, caption = paste0("Descriptive statistics for Median Income and Percentage of French Speakers in Lethbridge in ", 2016))
 ```
+![DescriptiveStatsTable](https://github.com/user-attachments/assets/eeb724e1-04b7-47f9-aa53-cd76bcf578c1)
 
 Describe how the map is created.
 
