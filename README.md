@@ -185,7 +185,7 @@ To visualize the median total income neighbours queen and rooks weight, we will 
 
 They show
 
-```{r Neighboursmap, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Kamloops census dissemination areas showing median total income neighbours queens weight (left)  rooks weight (middle) and the combination of the two (right)."}
+```{r Neighboursmap, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Lethbridge census dissemination areas showing median total income neighbours queens weight (left)  rooks weight (middle) and the combination of the two (right)."}
 
 #Make queens map
 IncomeQueen <- tm_shape(Income_noNA) + tm_borders(col='lightgrey') + 
@@ -336,7 +336,7 @@ French_noNA$P<- lisa.testFrench [,5]
 
 ***Now going back to our basic mapping template we can visualize some of these results to understand what this test is doing.
 
-```{r MappingLocalMoransI, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Kamloops census dissemination areas showing LISA z-scores for median total income (left) and percentage of respondants with knowledge of french (right)."}
+```{r MappingLocalMoransI, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Lethbridge census dissemination areas showing LISA z-scores for median total income (left) and percentage of respondants with knowledge of french (right)."}
 #Map LISA z-scores for Income
 map_LISA_Income <- tm_shape(Income_noNA) +
   tm_polygons(col = "Z.Ii",
