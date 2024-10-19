@@ -1,6 +1,6 @@
 # GEOG 418 Assignment 3: Spatial Autocorrelation Tutorial
 ## Introduction
-Describe the concept of libraries.
+***Describe the concept of libraries.
 
 ```{r Libraries, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
 #Install packages if not already installed:
@@ -147,11 +147,9 @@ with knowledge of french (right).</em></p>
 
 ## Neighbourhood matrix
 
-Describe the concept of a weighted neighbourhood matrix.
+***Describe the concept of a weighted neighbourhood matrix.
 
-The code to create a list of neighbours in R is very simple thanks to the poly2nb() function in the ‘spdep’ package. If we want to change from default queen weighting to rook weighting in our selection, we simply change the ‘queen = TRUE’ to ‘queen = FALSE’.
-
-We will use the 'spdep' package to create a list of neighbours in R. Using the poly2nb() function, 
+We will use the R 'spdep' package's poly2nb() function to create a list of neighbours. To change between queen and rook weighting, you can change the code to include queen = FALSE as a parameter. If that code is not present, it will default to queen = TRUE, meaning that it will conduct queen weighting.
 
 ```{r Neighbours, echo=TRUE, eval=TRUE, warning=FALSE}
 
