@@ -208,7 +208,7 @@ tmap_arrange(IncomeQueen, IncomeRook, IncomeBoth, ncol = 3, nrow = 1)
 </div>
 <p style="text-align: center;"><em>Figure 2: Lethbridge census dissemination areas showing median total income neighbours queens weight (left), rooks weight (middle), and the combination of the two (right).</em></p>
 
-Describe the code for the weighted matrix file.
+***Describe the code for the weighted matrix file.
 
 Weights are defined by “style” (ie. type), and can include “B”, “W”, and “C”. The B weights matrix is the most basic of the three, as it employs a binary weighting scheme, whereby each neighbour is given a weight of 1, and all other polygons are given a weight of 0 (see figures above). A W weights matrix employs a row standardized weighting scheme, with each neighbour given equal weights that sum to 1 [11]. Comparatively, a C weights matrix is a globally standardized method of weighting, with all neighbours given equal weight across the entire study area [13].
 
@@ -226,18 +226,23 @@ head(Income.lw[["weights"]])[c(1:3)]
 
 ```
 
+![image](https://github.com/user-attachments/assets/f1cb00f9-6669-43cf-9bdb-4b0266102114)
 
 ## Global Moran’s I
 
 Now that we have determined how to choose and weight our neighbours, we can calculate the Global Moran’s I statistic. This method of testing for spatial autocorrelation looks across the entire study area for every location simultaneously [14]. The equation for this statistic is
 
+Our neighbours have now been chosen and weighted, so we can continue on to calculating the Global Moran's I statistic. This is used to test for spatial autocorrelation for the entire study area. It is able to examine all areas at the same time to help with the analysis of this data. 
+
+The equation is:
+
 $$
 I = \frac{\sum_{i=1}^n\sum_{j=1}^nW_{i,j}(x_i - \bar{x})(x_j - \bar{x})}{(\sum_{i=1}^n\sum_{j=1}^nW_{i,j})\sum_{i=1}^n(x_i - \bar{x})^2}
 $$
 
-Here, if $x$ is the variable being assessed, $x_i$ is the variable value at a point of interest (i) and $x_j$ represents a neighbour to $x_i$ (here determined by the queen weighting scheme). The spatial weighting applied to the weighting matrix $W_{i,j}$ is multiplied by both the differences of $x_i$ and the mean value of variable $x$, and $x_j$ and the mean value of variable $x$.
+***Here, if $x$ is the variable being assessed, $x_i$ is the variable value at a point of interest (i) and $x_j$ represents a neighbour to $x_i$ (here determined by the queen weighting scheme). The spatial weighting applied to the weighting matrix $W_{i,j}$ is multiplied by both the differences of $x_i$ and the mean value of variable $x$, and $x_j$ and the mean value of variable $x$.
 
-The denominator in this case is used to standardize our values, and therefore relatively high values of I correspond with positive spatial autocorrelation, and relatively low values of I correspond with negative spatial autocorrelation. Remember that the global Moran’s I statistic provides an indication of how spatially autocorrelated our data is over the entire dataset, thus representing a spatial pattern at the global scale [15].
+***The denominator in this case is used to standardize our values, and therefore relatively high values of I correspond with positive spatial autocorrelation, and relatively low values of I correspond with negative spatial autocorrelation. Remember that the global Moran’s I statistic provides an indication of how spatially autocorrelated our data is over the entire dataset, thus representing a spatial pattern at the global scale [15].
 
 
 ```{r Global Morans I, echo=TRUE, eval=TRUE, warning=FALSE}
@@ -259,7 +264,7 @@ varFrench <- miFrench$estimate[[3]]
 ```
 
 
-Describe the results.
+***Describe the results.
 
 
 ```{r Global Morans Range, echo=TRUE, eval=TRUE, warning=FALSE}
@@ -275,11 +280,11 @@ minRange <- range[1]
 maxRange <- range[2]
 ```
 
-Describe what the results indicate.
+***Describe what the results indicate.
 
-However, we can still go a step further and figure out whether these patterns are statistically significant. To do so, we can use a Z-test. Here our null hypothesis is ?, and the alternate hypothesis is ?. Using an $\alpha$ value of 0.05, if our Z-score falls above or below 1.96, we can say ?. A value greater than +1.96 would imply ?, and a value less than -1.96 would imply ?.
+***However, we can still go a step further and figure out whether these patterns are statistically significant. To do so, we can use a Z-test. Here our null hypothesis is ?, and the alternate hypothesis is ?. Using an $\alpha$ value of 0.05, if our Z-score falls above or below 1.96, we can say ?. A value greater than +1.96 would imply ?, and a value less than -1.96 would imply ?.
 
-We can calculate a Z-test using the following code:
+This code is used to calculate the Z-score:
 
 ```{r Global Morans ZScore, echo=TRUE, eval=TRUE, warning=FALSE}
 #Calculate z-test for Income
@@ -289,19 +294,19 @@ zIncome <- (mIIncome - eIIncome) / (sqrt(varIncome))
 zFrench <- (mIFrench - eIFrench) / (sqrt(varFrench))
 ```
 
-The zscores for both variable confirm that ?
+***The zscores for both variable confirm that ?
 
 ## Local spatial autocorrelation
 
-Explain local spatial autocorrelation
+***Explain local spatial autocorrelation
 
-The calculation for Local Moran’s I has many of the same features as our global calculation, although arranged in a different way.
+This is the equation for the Local Moran's I statistic:
 
 $$
 I_i = \frac{x_i - \bar{x}}{S_i^2} \sum_{j=1}^n W_{i,j}(x_j - \bar{x}) \quad \text{where} \quad S_i^2 = \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}
 $$
 
-Again, instead of typing out these calculations, we can use the localmoran() function to deal with all of the messy calculations for us, as long as we input our variable and weighting scheme.
+***Again, instead of typing out these calculations, we can use the localmoran() function to deal with all of the messy calculations for us, as long as we input our variable and weighting scheme.
 
 
 ```{r Local Morans I, echo=TRUE, eval=TRUE, warning=FALSE}
@@ -326,9 +331,7 @@ French_noNA$Z.Ii<- lisa.testFrench [,4]
 French_noNA$P<- lisa.testFrench [,5]
 ```
 
-
-Now going back to our basic mapping template we can visualize some of these results to understand what this test is doing.
-
+***Now going back to our basic mapping template we can visualize some of these results to understand what this test is doing.
 
 ```{r MappingLocalMoransI, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Kamloops census dissemination areas showing LISA z-scores for median total income (left) and percentage of respondants with knowledge of french (right)."}
 #Map LISA z-scores for Income
@@ -369,10 +372,9 @@ tmap_arrange(map_LISA_Income, map_LISA_French, ncol = 2, nrow = 1)
 <p style="text-align: center;"><em>Figure 3: Lethbridge census dissemination areas showing LISA z-scores for median total income (left) and
 percentage of respondants with knowledge of french (right).</em></p>
 
-Explain the results.
+***Explain the results.
 
-
-While these maps are great for visualizing where the data is and getting a rough idea of how many polygons are significantly positively or negatively spatially autocorrelated, it can be even more informative to graph these trends.
+***While these maps are great for visualizing where the data is and getting a rough idea of how many polygons are significantly positively or negatively spatially autocorrelated, it can be even more informative to graph these trends.
 
 ```{r MoransIScatter, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap= "Moran's I scatter plot for median total income."}
 #Create Moran's I scatter plot for Income
@@ -397,13 +399,11 @@ moran.plot(French_noNA$PercFrench, French.lw, zero.policy=TRUE, spChk=NULL, labe
 </div>
 <p style="text-align: center;"><em>Figure 5: Moran's I scatter plot for percentage of respondants with knowledge of french.</em></p>
 
-In these plots, the points with diamonds are considered statistically significant, and the regression line shows the overall trend. For both plots we can see that the trend shows?
-
-
+***In these plots, the points with diamonds are considered statistically significant, and the regression line shows the overall trend. For both plots we can see that the trend shows?
 
 
 ## Summary
 
-Provide a brief summary.
+***Provide a brief summary.
 
 ## References
