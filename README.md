@@ -108,9 +108,11 @@ kable(data, caption = paste0("Descriptive statistics for Median Income and Perce
 ```
 ![DescriptiveStatsTable](https://github.com/user-attachments/assets/eeb724e1-04b7-47f9-aa53-cd76bcf578c1)
 
-Describe how the map is created.
+Now it is time to make a map to show the spatial distribution of both events throughout the Lethbridge census area. To do this, we will use the tmap library, which allows you to customize the title, classification style, colour palette, and legend. You can explore the different colour palettes by uncommenting the code: tmaptools::palette_explorer(). This pop up will give you the option to see many different available palettes for different numbers of classes and the code you need to use to add them to your map. 
 
-```{r StudyArea, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Toronto census dissemination areas showing median total income (left) and percentage of respondants with knowledge of french (right)."}
+Once both maps have been created, we can display them side by side for analysis. As you can see below, the outputs are clean and give a good visual representation of how both datasets are distributed.
+
+```{r StudyArea, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Lethbridge census dissemination areas showing median total income (left) and percentage of respondants with knowledge of french (right)."}
 #Choose a pallete
 #tmaptools::palette_explorer() #Tool for selecting pallettes
 #Map median Income
@@ -149,13 +151,15 @@ Describe the concept of a weighted neighbourhood matrix.
 
 The code to create a list of neighbours in R is very simple thanks to the poly2nb() function in the ‘spdep’ package. If we want to change from default queen weighting to rook weighting in our selection, we simply change the ‘queen = TRUE’ to ‘queen = FALSE’.
 
+We will use the 'spdep' package to create a list of neighbours in R. Using the poly2nb() function, 
+
 ```{r Neighbours, echo=TRUE, eval=TRUE, warning=FALSE}
 
 #Income Neighbours - Queens weight
 Income.nb <- poly2nb(Income_noNA)
 # Use st_coordinates to get the coordinates
 Income.net <- nb2lines(Income.nb, coords=st_coordinates(Income_noNA))
-
+crs(Income.net) <- crs(Income_noNA)
 
 #Income Neighbours - Rooks weight
 Income.nb2 <- poly2nb(Income_noNA, queen = FALSE)
