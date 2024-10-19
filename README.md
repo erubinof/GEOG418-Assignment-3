@@ -176,7 +176,11 @@ crs(French.net2) <- crs(French_noNA)
 
 ```
 
-Explain how the maps below are created and what they show.
+***Explain how the maps below are created and what they show.
+
+To visualize the median total income neighbours queen and rooks weight, we will use the tmap plugin again to make some maps. As these maps are just showing lines and not polygons with a classification, the code to create it is much simpler than the previous map. For each map, we provide the census polygons, the border colour, the neighbour lines data, and the line colour. For the last one, we add both the the neighbour lines data and colour for both queen and rooks weight, as it will be used to compare them. Once all three maps are created, we can display them all side by side.
+
+They show
 
 ```{r Neighboursmap, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Kamloops census dissemination areas showing median total income neighbours queens weight (left)  rooks weight (middle) and the combination of the two (right)."}
 
