@@ -2,7 +2,7 @@
 ## Introduction
 For this tutorial, we will be using R to conduct our analysis. As the standard installation of R only has so many functions, when we are trying to do more specific calculations and visualizations, packages and libraries are needed. These can be installed and loaded through RStudio and allow for more complex coding within R.
 
-In this case, we are interested in having the ability to create maps, make lists of neighbours, and define weight matrices, all functions that require additional packages and libraries. To install and load these, we first use the install.packages() code to install them on our device, and then we use the library() code to import them for use in our project file. Once this is all set up, the functions seen below will work as intended.
+In this case, we are interested in having the ability to create maps, make lists of neighbours, define weight matrices, and import shapefiles, all functions that require additional packages and libraries. To install and load these, we first use the install.packages() code to install them on our device, and then we use the library() code to import them for use in our project file. Once this is all set up, the functions seen below will work as intended.
 
 ```{r Libraries, echo=TRUE, eval=TRUE, message=FALSE, warning=FALSE}
 #Install packages if not already installed:
