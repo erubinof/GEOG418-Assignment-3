@@ -1,4 +1,5 @@
 # GEOG 418 Assignment 3: Spatial Autocorrelation Tutorial
+Created By: Ezra Rubinoff
 ## Introduction
 For this tutorial, we will be using R to conduct our analysis. As the standard installation of R only has so many functions, when we are trying to do more specific calculations and visualizations, packages and libraries are needed. These can be installed and loaded through RStudio and allow for more complex coding within R.
 
@@ -27,7 +28,7 @@ library("e1071")
 
 ```
 
-Starting off, you must set your working directory to tell the code where to look for the data and where to save your figures. This working directory only needs to be set once for the project, and everything from now on will be pulled from or saved into that folder. The next step is to import the required data into R. Below, the code demostrates how to bring the census boundaries shapefile in as a st dataframe, and the census data in as a dataframe. 
+Starting off, you must set your working directory to tell the code where to look for the data and where to save your figures. This working directory only needs to be set once for the project, and everything from now on will be pulled from or saved into that folder. The next step is to import the required data into R. Below, the code demonstrates how to bring the census boundaries shapefile in as a st dataframe, and the census data in as a dataframe. 
 
 The census boundaries shapefile is a spatial dataset that contains all census boundaries across Canada from 2016. This will be used to help us map out the spatial autocorrelation that we are analyzing. The census dataset contains all of the non-spatial information from the Canadian census in 2016 and will be used to collect the data we need to run our spatial autocorrelation analysis.
 
@@ -109,7 +110,9 @@ data <- data.frame(Variable = c("Income", "French Language"),
 #Produce table
 kable(data, caption = paste0("Descriptive statistics for Median Income and Percentage of French Speakers in Lethbridge in ", 2016))
 ```
-![DescriptiveStatsTable](https://github.com/user-attachments/assets/eeb724e1-04b7-47f9-aa53-cd76bcf578c1)
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/eeb724e1-04b7-47f9-aa53-cd76bcf578c1" alt="Descriptive Stats Table" width="500" />
+</div>
 
 Now it is time to make a map to show the spatial distribution of both events throughout the Lethbridge census area. To do this, we will use the tmap library, which allows you to customize the title, classification style, colour palette, and legend. You can explore the different colour palettes by uncommenting the code: tmaptools::palette_explorer(). This pop up will give you the option to see many different available palettes for different numbers of classes and the code you need to use to add them to your map. 
 
@@ -167,22 +170,22 @@ We will use the R 'spdep' package's poly2nb() function to create a list of neigh
 #Income Neighbours - Queens weight
 Income.nb <- poly2nb(Income_noNA)
 # Use st_coordinates to get the coordinates
-Income.net <- nb2lines(Income.nb, coords=st_coordinates(Income_noNA))
+Income.net <- nb2lines(Income.nb, coords=st_coordinates(st_centroid(Income_noNA)))
 crs(Income.net) <- crs(Income_noNA)
 
 #Income Neighbours - Rooks weight
 Income.nb2 <- poly2nb(Income_noNA, queen = FALSE)
-Income.net2 <- nb2lines(Income.nb2, coords=st_coordinates(Income_noNA))
+Income.net2 <- nb2lines(Income.nb2, coords=st_coordinates(st_centroid(Income_noNA)))
 crs(Income.net2) <- crs(Income_noNA)
 
 #French Neighbours - Queens weight
 French.nb <- poly2nb(French_noNA)
-French.net <- nb2lines(French.nb, coords=st_coordinates(French_noNA))
+French.net <- nb2lines(French.nb, coords=st_coordinates(st_centroid(French_noNA)))
 crs(French.net) <- crs(French_noNA)
 
 #French Neighbours - Rooks weight
 French.nb2 <- poly2nb(French_noNA, queen = FALSE)
-French.net2 <- nb2lines(French.nb2, coords=st_coordinates(French_noNA))
+French.net2 <- nb2lines(French.nb2, coords=st_coordinates(st_centroid(French_noNA)))
 crs(French.net2) <- crs(French_noNA)
 
 ```
@@ -219,7 +222,7 @@ tmap_arrange(IncomeQueen, IncomeRook, IncomeBoth, ncol = 3, nrow = 1)
 
 To define weights, types are used, and the 3 main common ones are called "B", "W", and "C". Starting with B, it uses a simple binary weighting system where neighbours are given a weight of 1 and all others are given a weight of 0. This is what was employed in the previous diagrams used to explain queen and rook weights. Moving onto W, it uses a row standardized weighting system where each neighbour is given equal weights that total 1 when added together. An example of this would be a polygon with 4 neighbours, where each of the neighbours are given a weight of 0.25. Lastly, C weights uses a globally standardized system where all neighbours have an equal weight across the entire study area.
 
-Now that we understand 3 different types of weighting, we can move on to applying these to our data and continue with our analysis. To create a weight matrix, we will use the spdep library's “nb2listw” function. This function can be applied to the Income.nb, French.nb, Income.nb2, or French.nb2, depending on which variable we want to look at and if we want to use rook or queen weights. This variable contains the links between neighbours to use while creating the matrices. Also, there are some census areas that have no links to neighbours so we can set the “zero.policy” parameter to TRUE to make sure weights vectors of zero length is set for them. Once the matrices are made, we can display them with the code “print.listw” to understand the distribution of weights for all of the observations, refered to as "i", and their neighbours, refered to as "j". We will use a W type matrix below for our analysis. To see more in depth details about “nb2listw” function and some examples of its usage, use this link: [Spatial weights for neighbours lists](https://r-spatial.github.io/spdep/reference/nb2listw.html). 
+Now that we understand 3 different types of weighting, we can move on to applying these to our data and continue with our analysis. To create a weight matrix, we will use the spdep library's “nb2listw” function. This function can be applied to the Income.nb, French.nb, Income.nb2, or French.nb2, depending on which variable we want to look at and if we want to use rook or queen weights. This variable contains the links between neighbours to use while creating the matrices. Also, there are some census areas that have no links to neighbours so we can set the “zero.policy” parameter to TRUE to make sure weights vectors of zero length is set for them. Once the matrices are made, we can display them with the code “print.listw” to understand the distribution of weights for all of the observations, referred to as "i", and their neighbours, referred to as "j". We will use a W type matrix below for our analysis. To see more in depth details about “nb2listw” function and some examples of its usage, use this link: [Spatial weights for neighbours lists](https://r-spatial.github.io/spdep/reference/nb2listw.html). 
 
 ```{r Final weights, echo=TRUE, eval=TRUE, warning=FALSE}
 #Create Income weights matrix
@@ -405,11 +408,11 @@ tmap_arrange(map_LISA_Income, map_LISA_French, ncol = 2, nrow = 1)
 <p style="text-align: center;"><em>Figure 4: Lethbridge census dissemination areas showing LISA z-scores for median total income (left) and
 percentage of respondants with knowledge of french (right).</em></p>
 
-This map shows the census areas where the Z-Score of the Local Moran's I test is both above 1.96 and below -1.96, indicating the areas where there is positive spatial autocorrelation and negative spatial autocorrelation. By showing this for both variables, we can see which cencus tracts are more similar to their neighbours and which are more different than their neighbours, both being at a statistically spgnificant level.
+This map shows the census areas where the Z-Score of the Local Moran's I test is both above 1.96 and below -1.96, indicating the areas where there is positive spatial autocorrelation and negative spatial autocorrelation. By showing this for both variables, we can see which census tracts are more similar to their neighbours and which are more different than their neighbours, both being at a statistically significant level.
 
 Maps are just one way of visualizing the data, and while it is easy to look at them and understand some basic outcomes, plotting this data on a graph can be more informative and provide some more depth to the conclusions.
 
-In these plots, the x-axis represents the values at location i, while the y-axis represents values in the neighbourhood of location i. Values in the top-right of the plot represent locations where the value of the attribute at i and its neighbours are high above the mean, showing postive spatial autocorrelation. The points in the lower-corner of the plot are locations where the value of the attribute at i and its neighbours are lower than the mean which also represents locations of positive spatial autocorrelation.
+In these plots, the x-axis represents the values at location i, while the y-axis represents values in the neighbourhood of location i. Values in the top-right of the plot represent locations where the value of the attribute at i and its neighbours are high above the mean, showing positive spatial autocorrelation. The points in the lower-corner of the plot are locations where the value of the attribute at i and its neighbours are lower than the mean which also represents locations of positive spatial autocorrelation.
 
 ```{r MoransIScatter, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap= "Moran's I scatter plot for median total income."}
 #Create Moran's I scatter plot for Income
