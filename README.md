@@ -1,6 +1,8 @@
 # GEOG 418 Assignment 3: Spatial Autocorrelation Tutorial
 Created By: Ezra Rubinoff
 ## Introduction
+“The first law of geography: Everything is related to everything else, but near things are more related than distant things.” Waldo R. Tobler. Spatial autocorrelation is a way to measure if things nearby each other are similar to one another (Gimond, n.d.). In simple terms, it is a measure of similarity . This tutorial aims to dive into how we can use spatial autocorrelation to conduct statistical tests and answer our research questions on Canadian census data in Lethbridge, Alberta. 
+
 For this tutorial, we will be using R to conduct our analysis. As the standard installation of R only has so many functions, when we are trying to do more specific calculations and visualizations, packages and libraries are needed. These can be installed and loaded through RStudio and allow for more complex coding within R.
 
 In this case, we are interested in having the ability to create maps, make lists of neighbours, define weight matrices, and import shapefiles, all functions that require additional packages and libraries. To install and load these, we first use the install.packages() code to install them on our device, and then we use the library() code to import them for use in our project file. Once this is all set up, the functions seen below will work as intended.
@@ -444,6 +446,8 @@ For these graphs, the diamond shaped points are significantly significant census
 In summary, using R to conduct a neighbourhood matrix and a Global and Local Moran's I statistical test, we were able to conclude that both median income and percentage of french speakers are positively spatially autocorrelated in Lethbridge, Alberta. By creating maps and plots along the way, we were able to visualize the process and strengthen our spatial statistics skills in R. Now that you have completed this, you can go out and do spatial autocorrelation tests on any data that you find and answer your own research questions!
 
 ## References
+Gimond, M. (n.d.). Chapter 13 spatial autocorrelation | intro to gis and spatial analysis. Retrieved October 20, 2024, from https://mgimond.github.io/Spatial/spatial-autocorrelation.html
+
 Moraga, P. (n.d.). Chapter 7: Spatial Neighborhood Matrices. In Spatial Statistics for Data Science: Theory and Practice with R. Retrieved October 20, 2024, from https://www.paulamoraga.com/book-spatial/spatial-neighborhood-matrices.html
 
 Sergio J., R., Dani, A.-B., & Levi J., W. (2020). Spatial Weights. In Geographic Data Science with Python. https://geographicdata.science/book/notebooks/04_spatial_weights.html
