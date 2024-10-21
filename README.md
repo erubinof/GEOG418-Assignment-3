@@ -150,7 +150,15 @@ with knowledge of french (right).</em></p>
 
 ## Neighbourhood matrix
 
-***Describe the concept of a weighted neighbourhood matrix.
+A weighted neighbourhood matrix is used to identify the neighbours of an event or area and assign weights to calculate their spatial influence or similarity. In spatial autocorrelation analysis, statistical tests to assess how an event relates to its neighbours are only meaningful if the neighbours are clearly defined and their importance is accounted for through appropriate weighting. 
+
+The approaches we will use for defining neighbours are the queen and rook weighting methods. The queen method considers neighbouring areas that share either a border or a corner, while the rook method only considers areas that share a common border. These names evidently come from the game of Chess. Below shows a diagram of both queen and rooks weighting.
+
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/da6ee0d0-e0d8-4bc6-a737-5e49139ea338" alt="Queen Weights Neighbours" width="300" />
+  <img src="https://github.com/user-attachments/assets/7d34efa5-9b4a-4431-9938-88aed40ca536" alt="Rooks Weights Neighbours" width="300" />
+</div>
+<p style="text-align: center;"><em> Figure 2: Queen weights neighbours (Left) and rook weights neighbours (Right) .</em></p>
 
 We will use the R 'spdep' package's poly2nb() function to create a list of neighbours. To change between queen and rook weighting, you can change the code to include queen = FALSE as a parameter. If that code is not present, it will default to queen = TRUE, meaning that it will conduct queen weighting.
 
@@ -179,11 +187,9 @@ crs(French.net2) <- crs(French_noNA)
 
 ```
 
-***Explain how the maps below are created and what they show.
-
 To visualize the median total income neighbours queen and rooks weight, we will use the tmap plugin again to make some maps. As these maps are just showing lines and not polygons with a classification, the code to create it is much simpler than the previous map. For each map, we provide the census polygons, the border colour, the neighbour lines data, and the line colour. For the last one, we add both the the neighbour lines data and colour for both queen and rooks weight, as it will be used to compare them. Once all three maps are created, we can display them all side by side.
 
-They show
+Using lines, these maps show all of the neighbour connections between the different census areas. As the boundaries of these areas are not uniform, these lines look very different from the diagrams above. This map allows you to see the benefits and drawbacks of both the queen and rook methods.
 
 ```{r Neighboursmap, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Lethbridge census dissemination areas showing median total income neighbours queens weight (left)  rooks weight (middle) and the combination of the two (right)."}
 
@@ -209,14 +215,11 @@ tmap_arrange(IncomeQueen, IncomeRook, IncomeBoth, ncol = 3, nrow = 1)
   <img src="https://github.com/user-attachments/assets/60e0844d-c0a6-4779-869e-b34a05c59fac" alt="Map_IncomeRook" width="325" />
   <img src="https://github.com/user-attachments/assets/98fa6b63-eaa2-4eda-87b9-9953ea97bcad" alt="Map_IncomeBoth" width="325" />  
 </div>
-<p style="text-align: center;"><em>Figure 2: Lethbridge census dissemination areas showing median total income neighbours queens weight (left), rooks weight (middle), and the combination of the two (right).</em></p>
+<p style="text-align: center;"><em>Figure 3: Lethbridge census dissemination areas showing median total income neighbours queens weight (left), rooks weight (middle), and the combination of the two (right).</em></p>
 
-***Describe the code for the weighted matrix file.
+To define weights, types are used, and the 3 main common ones are called "B", "W", and "C". Starting with B, it uses a simple binary weighting system where neighbours are given a weight of 1 and all others are given a weight of 0. This is what was employed in the previous diagrams used to explain queen and rook weights. Moving onto W, it uses a row standardized weighting system where each neighbour is given equal weights that total 1 when added together. An example of this would be a polygon with 4 neighbours, where each of the neighbours are given a weight of 0.25. Lastly, C weights uses a globally standardized system where all neighbours have an equal weight across the entire study area.
 
-Weights are defined by “style” (ie. type), and can include “B”, “W”, and “C”. The B weights matrix is the most basic of the three, as it employs a binary weighting scheme, whereby each neighbour is given a weight of 1, and all other polygons are given a weight of 0 (see figures above). A W weights matrix employs a row standardized weighting scheme, with each neighbour given equal weights that sum to 1 [11]. Comparatively, a C weights matrix is a globally standardized method of weighting, with all neighbours given equal weight across the entire study area [13].
-
-Creating a weights matrix in R uses the “nb2listw” function from the “spdep” library. We can apply this function to the vri.nb variable created above, as it contains all of the neighbour links to which we want to assign weights. Additionally, if there are any polygons in our file with zero neighbour links, we still want the program to run. Therefore, we define “zero.policy” as equal to “TRUE”, which assigns weights vectors of zero length for regions with no neighbours [13]. Subsequently, we can print off our list of weights matrices (“print.listw”) in order to assess the distribution of weights for each observation (i) and its neighbours (j). The example of code below is using a weights matrix of type W. You can read more about the different styles of spatial weighting [here](https://r-spatial.github.io/spdep/reference/nb2listw.html).
-
+Now that we understand 3 different types of weighting, we can move on to applying these to our data and continue with our analysis. To create a weight matrix, we will use the spdep library's “nb2listw” function. This function can be applied to the Income.nb, French.nb, Income.nb2, or French.nb2, depending on which variable we want to look at and if we want to use rook or queen weights. This variable contains the links between neighbours to use while creating the matrices. Also, there are some census areas that have no links to neighbours so we can set the “zero.policy” parameter to TRUE to make sure weights vectors of zero length is set for them. Once the matrices are made, we can display them with the code “print.listw” to understand the distribution of weights for all of the observations, refered to as "i", and their neighbours, refered to as "j". We will use a W type matrix below for our analysis. To see more in depth details about “nb2listw” function and some examples of its usage, use this link: [Spatial weights for neighbours lists](https://r-spatial.github.io/spdep/reference/nb2listw.html). 
 
 ```{r Final weights, echo=TRUE, eval=TRUE, warning=FALSE}
 #Create Income weights matrix
@@ -372,7 +375,7 @@ tmap_arrange(map_LISA_Income, map_LISA_French, ncol = 2, nrow = 1)
   <img src="https://github.com/user-attachments/assets/16f6083c-aee3-4b12-8629-7a6388301ea0" alt="map_LISA_French" width="500" />
   <img src="https://github.com/user-attachments/assets/c277e0d7-e3a6-4829-aac1-4a2e4ec3e8a4" alt="map_LISA_Income" width="500" />
 </div>
-<p style="text-align: center;"><em>Figure 3: Lethbridge census dissemination areas showing LISA z-scores for median total income (left) and
+<p style="text-align: center;"><em>Figure 4: Lethbridge census dissemination areas showing LISA z-scores for median total income (left) and
 percentage of respondants with knowledge of french (right).</em></p>
 
 ***Explain the results.
@@ -395,12 +398,12 @@ moran.plot(French_noNA$PercFrench, French.lw, zero.policy=TRUE, spChk=NULL, labe
 <div style="display: flex;">
   <img src="https://github.com/user-attachments/assets/86ca8e5d-0584-4ed7-ae1c-61585a092f68" alt="Moran_Income_Plot" width="800" />
 </div>
-<p style="text-align: center;"><em>Figure 4: Moran’s I scatter plot for median total income.</em></p>
+<p style="text-align: center;"><em>Figure 5: Moran’s I scatter plot for median total income.</em></p>
 
 <div style="display: flex;">
   <img src="https://github.com/user-attachments/assets/b8c8fc54-7846-4179-a17b-4222382cb032" alt="Moran_French_Plot" width="800" />
 </div>
-<p style="text-align: center;"><em>Figure 5: Moran's I scatter plot for percentage of respondants with knowledge of french.</em></p>
+<p style="text-align: center;"><em>Figure 6: Moran's I scatter plot for percentage of respondants with knowledge of french.</em></p>
 
 ***In these plots, the points with diamonds are considered statistically significant, and the regression line shows the overall trend. For both plots we can see that the trend shows?
 
