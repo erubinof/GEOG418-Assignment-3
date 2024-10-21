@@ -232,7 +232,9 @@ head(Income.lw[["weights"]])[c(1:3)]
 
 ```
 
-![image](https://github.com/user-attachments/assets/f1cb00f9-6669-43cf-9bdb-4b0266102114)
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/f1cb00f9-6669-43cf-9bdb-4b0266102114" alt="Income Weights Matrix" width="500" />
+</div>
 
 ## Global Moran’s I
 
@@ -246,10 +248,11 @@ $$
 I = \frac{\sum_{i=1}^n\sum_{j=1}^nW_{i,j}(x_i - \bar{x})(x_j - \bar{x})}{(\sum_{i=1}^n\sum_{j=1}^nW_{i,j})\sum_{i=1}^n(x_i - \bar{x})^2}
 $$
 
-***Here, if $x$ is the variable being assessed, $x_i$ is the variable value at a point of interest (i) and $x_j$ represents a neighbour to $x_i$ (here determined by the queen weighting scheme). The spatial weighting applied to the weighting matrix $W_{i,j}$ is multiplied by both the differences of $x_i$ and the mean value of variable $x$, and $x_j$ and the mean value of variable $x$.
+To understand this equation, it is sometimes easier to break it down to see how the variable $x$ is used. $x_i$ is the value of the variable at point i and $x_j$ is a neighbour to $x_i$. The neighbours for this analysis is determined by the queen weight system. Then, the weighting matrix is used to apply the weighting $W_{i,j}$ and is multiplied by the differences of $x_i$ and the mean $x$, and $x_j$ and the mean of $x$.
 
-***The denominator in this case is used to standardize our values, and therefore relatively high values of I correspond with positive spatial autocorrelation, and relatively low values of I correspond with negative spatial autocorrelation. Remember that the global Moran’s I statistic provides an indication of how spatially autocorrelated our data is over the entire dataset, thus representing a spatial pattern at the global scale [15].
+This calculated value is then standardzied by the denominator to calculate the value for I. High values of I means that there is positive spatial autocorrelation, and lower values tend to be associated with negative spatial autocorrelation. The pattern calculated is for the entire dataset, as this is a global statistic, and therefore shows how similar things are either closer or further from each other on a global scale.
 
+We then also can calculate the expected I and the variance to give us a better understanding of how significant the Moran's I value is. The expected I tells us what the I would be if there was no spatial autocorrelation present in the data. If the I is different from the expected I, then it is either positively or negatively autocorrelated. The variance is how varied the values are in the dataset and will be used later on to calculate a Z-score. 
 
 ```{r Global Morans I, echo=TRUE, eval=TRUE, warning=FALSE}
 #Calculate Global Moran's I for Income
@@ -267,11 +270,23 @@ miFrench <- moran.test(French_noNA$PercFrench, French.lw, zero.policy = TRUE)
 mIFrench <- miFrench$estimate[[1]]
 eIFrench <- miFrench$estimate[[2]]
 varFrench <- miFrench$estimate[[3]]
+
+# Create a table to display Global Moran's I results for Income and French
+results_table <- data.frame(
+  Variable = c("Income", "French"),
+  Moran_I = c(mIIncome, mIFrench),
+  Expected_I = c(eIIncome, eIFrench),
+  Variance = c(varIncome, varFrench)
+)
+
+# Print the table
+print(results_table)
 ```
+<div style="display: flex;">
+  <img src="https://github.com/user-attachments/assets/0643efb4-5842-41cc-beec-10382d6d9043" alt="Global Moran's I Results Table" width="500" />
+</div>
 
-
-***Describe the results.
-
+This table shows the results of the Global Moran's I for each variable. As the Moran's I value is bigger than the expected I value for both, they both are showing evidence of being positively spatially autocorrelated. Next, we will calculate the range of the Global Moran's I. 
 
 ```{r Global Morans Range, echo=TRUE, eval=TRUE, warning=FALSE}
 #Function to calculate the range of global Moran's I
@@ -286,9 +301,15 @@ minRange <- range[1]
 maxRange <- range[2]
 ```
 
-***Describe what the results indicate.
+Results:
 
-***However, we can still go a step further and figure out whether these patterns are statistically significant. To do so, we can use a Z-test. Here our null hypothesis is ?, and the alternate hypothesis is ?. Using an $\alpha$ value of 0.05, if our Z-score falls above or below 1.96, we can say ?. A value greater than +1.96 would imply ?, and a value less than -1.96 would imply ?.
+Moran's I for Income min range: -0.7301612
+
+Moran's I for Income max range: 1.063473
+
+These values show that some parts of the study area are more positively spatially autocorrelated and some areas are more negatively spatially autocorrelated. 
+
+Now, it is important to see if the results we are getting are statistically significant. For this, a Z-test is used along with a null and alternative hypothesis to make sure that we are following the scientific method to come to a conclusion. The null hypothesis is that there is no spatial autocorrelation for median income (or percentage of french speakers) in Lethbridge's census areas. The alternate hypothesis is that there is spatial autocorrelation for median income (or percentage of french speakers) in Lethbridge's census areas. We can pick a 95% confidence interval and therefore state that our $\alpha$ is 0.05. This means that if the Z-Score is higher than 1.96, we can reject the null hypothesis and say that our data is positively spatially autocorrelated and alternatively if the Z-score falls below -1.96, we can reject the null hypothesis and say that the data is negatively spatially autocorrelated. 
 
 This code is used to calculate the Z-score:
 
@@ -299,12 +320,17 @@ zIncome <- (mIIncome - eIIncome) / (sqrt(varIncome))
 #Calculate z-test for French
 zFrench <- (mIFrench - eIFrench) / (sqrt(varFrench))
 ```
+Results:
 
-***The zscores for both variable confirm that ?
+Z-Score for Median Income: 8.609242
+
+Z-Score for Percentage of French Speakers: 7.928283
+
+These results indicate that both Income and French variables are significantly positively spatially autocorrelated in Lethbridge. This means that on a global scale, areas of higher income are clustered together and areas of higher french speakers are also clustered. 
 
 ## Local spatial autocorrelation
 
-***Explain local spatial autocorrelation
+Local spatial autocorrelation is similar to global in the way it can quantify the similarities of polygons to their neighbours. The differences arise when you look into what values it produces. Local spatial autocorrelation produces a statistic for every observation in a dataset, unlike global which produces one for the entire dataset. This means that outliers will have less impact and the only way for observations to have very high values is if they are completely surrounded by similar values.
 
 This is the equation for the Local Moran's I statistic:
 
@@ -312,8 +338,9 @@ $$
 I_i = \frac{x_i - \bar{x}}{S_i^2} \sum_{j=1}^n W_{i,j}(x_j - \bar{x}) \quad \text{where} \quad S_i^2 = \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}
 $$
 
-***Again, instead of typing out these calculations, we can use the localmoran() function to deal with all of the messy calculations for us, as long as we input our variable and weighting scheme.
+This equation results in a measure of the difference between observation i and the mean multiplied by the sum of differences of its neighbours and the mean. Then, it is standardized by dividing it by the standard deviation of I, writen above as S_i^2. 
 
+This can also be run in R using the localmoran() function, to avoid doing any of the complicated calculations by hand. 
 
 ```{r Local Morans I, echo=TRUE, eval=TRUE, warning=FALSE}
 #Calculate LISA test for Income
@@ -337,7 +364,7 @@ French_noNA$Z.Ii<- lisa.testFrench [,4]
 French_noNA$P<- lisa.testFrench [,5]
 ```
 
-***Now going back to our basic mapping template we can visualize some of these results to understand what this test is doing.
+Once the values have all been calculated, we can map the results to visualize our Local Moran's I results.
 
 ```{r MappingLocalMoransI, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap="Lethbridge census dissemination areas showing LISA z-scores for median total income (left) and percentage of respondants with knowledge of french (right)."}
 #Map LISA z-scores for Income
@@ -378,9 +405,11 @@ tmap_arrange(map_LISA_Income, map_LISA_French, ncol = 2, nrow = 1)
 <p style="text-align: center;"><em>Figure 4: Lethbridge census dissemination areas showing LISA z-scores for median total income (left) and
 percentage of respondants with knowledge of french (right).</em></p>
 
-***Explain the results.
+This map shows the census areas where the Z-Score of the Local Moran's I test is both above 1.96 and below -1.96, indicating the areas where there is positive spatial autocorrelation and negative spatial autocorrelation. By showing this for both variables, we can see which cencus tracts are more similar to their neighbours and which are more different than their neighbours, both being at a statistically spgnificant level.
 
-***While these maps are great for visualizing where the data is and getting a rough idea of how many polygons are significantly positively or negatively spatially autocorrelated, it can be even more informative to graph these trends.
+Maps are just one way of visualizing the data, and while it is easy to look at them and understand some basic outcomes, plotting this data on a graph can be more informative and provide some more depth to the conclusions.
+
+In these plots, the x-axis represents the values at location i, while the y-axis represents values in the neighbourhood of location i. Values in the top-right of the plot represent locations where the value of the attribute at i and its neighbours are high above the mean, showing postive spatial autocorrelation. The points in the lower-corner of the plot are locations where the value of the attribute at i and its neighbours are lower than the mean which also represents locations of positive spatial autocorrelation.
 
 ```{r MoransIScatter, echo=TRUE, eval=TRUE, warning=FALSE, fig.cap= "Moran's I scatter plot for median total income."}
 #Create Moran's I scatter plot for Income
@@ -405,11 +434,10 @@ moran.plot(French_noNA$PercFrench, French.lw, zero.policy=TRUE, spChk=NULL, labe
 </div>
 <p style="text-align: center;"><em>Figure 6: Moran's I scatter plot for percentage of respondants with knowledge of french.</em></p>
 
-***In these plots, the points with diamonds are considered statistically significant, and the regression line shows the overall trend. For both plots we can see that the trend shows?
-
+For these graphs, the diamond shaped points are significantly significant census tracts, and the overall trend is shown in the regression line. Both plots show that there is positive spatial autocorrelation shown by the regression line going from the bottom-left to the top-right. 
 
 ## Summary
 
-***Provide a brief summary.
+In summary, using R to conduct a neighbourhood matrix and a Global and Local Moran's I statistical test, we were able to conclude that both median income and percentage of french speakers are positively spatially autocorrelated in Lethbridge, Alberta. By creating maps and plots along the way, we were able to visualize the process and strengthen our spatial statistics skills in R. Now that you have completed this, you can go out and do spatial autocorrelation tests on any data that you find and answer your own reearch questions!
 
 ## References
