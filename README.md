@@ -438,6 +438,11 @@ For these graphs, the diamond shaped points are significantly significant census
 
 ## Summary
 
-In summary, using R to conduct a neighbourhood matrix and a Global and Local Moran's I statistical test, we were able to conclude that both median income and percentage of french speakers are positively spatially autocorrelated in Lethbridge, Alberta. By creating maps and plots along the way, we were able to visualize the process and strengthen our spatial statistics skills in R. Now that you have completed this, you can go out and do spatial autocorrelation tests on any data that you find and answer your own reearch questions!
+In summary, using R to conduct a neighbourhood matrix and a Global and Local Moran's I statistical test, we were able to conclude that both median income and percentage of french speakers are positively spatially autocorrelated in Lethbridge, Alberta. By creating maps and plots along the way, we were able to visualize the process and strengthen our spatial statistics skills in R. Now that you have completed this, you can go out and do spatial autocorrelation tests on any data that you find and answer your own research questions!
 
 ## References
+Moraga, P. (n.d.). Chapter 7: Spatial Neighborhood Matrices. In Spatial Statistics for Data Science: Theory and Practice with R. Retrieved October 20, 2024, from https://www.paulamoraga.com/book-spatial/spatial-neighborhood-matrices.html
+
+Sergio J., R., Dani, A.-B., & Levi J., W. (2020). Spatial Weights. In Geographic Data Science with Python. https://geographicdata.science/book/notebooks/04_spatial_weights.html
+
+Spatial weights for neighbours lists—Nb2listw. (n.d.). Retrieved October 20, 2024, from https://r-spatial.github.io/spdep/reference/nb2listw.html
